@@ -20,9 +20,9 @@ void c6SPISendRecvBytes(uint8_t *send, uint8_t size)
 // Currently, this is just a macro. If SPI is used from a lot of different
 // places, it could be changed to be a function instead, to reduce code size.
 #define c6SPISendRecvPacket(port,pin,send,size) \
-PORT##port &= ~(1 << pin); \
+c6JOIN(PORT,port) &= ~(1 << pin); \
 c6SPISendRecvBytes(send, size); \
-PORT##port |= (1 << pin);
+c6JOIN(PORT,port) |= (1 << pin);
 
 // Set the uC to be an SPI master. MISO, MOSI and SCK must reside on the same
 // port. SS is not relevant here, it will be used when sending and receiving and

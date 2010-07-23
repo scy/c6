@@ -1,0 +1,6 @@
+==============
+   PITFALLS
+==============
+
+ - c6 sometimes (notably in spi.c) concatenates PORT and a macro argument into a
+   complete port name. Therefore, PORT itself should not be defined as a macro.
