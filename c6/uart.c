@@ -1,8 +1,7 @@
 #ifndef c6LoadedUART
 #define c6LoadedUART
 
-#include <c6/main.c>
-#include <avr/io.h>
+#include <c6/io.c>
 
 // Some uCs do not use an URSEL flag. For portability, define c6URSEL0 to be an
 // always ORable expression.
