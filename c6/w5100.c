@@ -43,4 +43,29 @@ void c6W5100Write(uint16_t startreg, uint8_t *value, uint16_t size)
 	}
 }
 
+// Initialize a W5100. Pass the last 4 bytes of the desired MAC address. The
+// first two ones are fixed to 02:c6. These are the steps:
+// 1. Reset the chip.
+// 2. Assign full 8 KB of RX buffer to socket 0 (raw ethernet).
+// 3. Assign full 8 KB of TX buffer to socket 0 (raw ethernet).
+// 4. Set socket 0 to raw ethernet mode (also called MACRAW).
+// 5. Activate socket 0.
+// 6. Write last 4 bytes of MAC.
+// 7. Write first 2 (constant) bytes of MAC.
+#define c6W5100Init(mac1,mac2,mac3,mac4) \
+{ uint8_t send[4] = { (1 << 7), mac2, mac3, mac4 }; \
+c6W5100Write(0x0000, send, 1); \
+send[0] = 0b00000011; \
+c6W5100Write(0x001a, send, 1); \
+c6W5100Write(0x001b, send, 1); \
+send[0] = 0b00000100; \
+c6W5100Write(0x0400, send, 1); \
+send[0] = 0x01; \
+c6W5100Write(0x0401, send, 1); \
+send[0] = mac1; \
+c6W5100Write(0x000b, send, 4); \
+send[0] = 0x02; send[1] = 0xc6; \
+c6W5100Write(0x0009, send, 2); \
+}
+
 #endif
