@@ -3,17 +3,13 @@
 
 #include <c6/delay.c>
 
-uint8_t c6SPISendRecvByte(uint8_t send)
-{
-	SPDR = send;
-	while (!(SPSR && (1 << SPIF))) { }
-	return SPDR;
-}
-
+// Send (and receive) a number of bytes via SPI.
 void c6SPISendRecvBytes(uint8_t *send, uint8_t size)
 {
-	for (uint8_t i = 0; i <= size; i++) {
-		send[i] = c6SPISendRecvByte(send[i]);
+	while (size-- > 0) {
+		SPDR = *send;
+		while (!(SPSR && (1 << SPIF))) { }
+		*(send++) = SPDR;
 	}
 }
 
