@@ -4,4 +4,6 @@
 #define c6JOIN(x,y) c6JOINAGAIN(x,y)
 #define c6JOINAGAIN(x,y) x##y
 
+#include <stdint.h>
+
 #endif
