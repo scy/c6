@@ -75,6 +75,16 @@ void c6UARTSendChar0(char c) {
 	// Write into the data register.
 	UDR0 = c;
 }
+
+void c6UARTSendBytes0(char *buf, uint8_t size)
+{
+	while (size-- > 0) {
+		// Wait until the UART is ready.
+		while (!(UCSR0A & (1 << UDRE0))) { }
+		// Write into the data register.
+		UDR0 = *(buf++);
+	}
+}
 #endif
 
 // Shortcut to enable 115200 baud 8N1 TX on UART.
